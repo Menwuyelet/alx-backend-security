@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'ip_tracking.apps.IpTrackingConfig',
+    'ratelimit',
 ]
 
 MIDDLEWARE = [
@@ -49,8 +50,16 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'ip_tracking.middleware.RequestLoggingMiddleware', 
+    'ip_tracking.middleware.IPBlockerMiddleware',
+    'django_ip_geolocation.middleware.IpGeolocationMiddleware',
 ]
 
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": "/tmp/django_cache",
+    }
+}
 ROOT_URLCONF = 'alx_backend_security.urls'
 
 TEMPLATES = [
